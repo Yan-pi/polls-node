@@ -9,7 +9,6 @@ class VotingPubSub {
     if (!this.channels[pollId]) {
       this.channels[pollId] = [];
     }
-
     this.channels[pollId].push(subscriber);
   }
 
