@@ -32,7 +32,7 @@ Polls-Node is an application for creating and voting on polls in real-time, usin
 2. Install the dependencies:
    ```bash
    cd polls-node
-   npm install
+   pnpm install
    ```
 
 3. Configure the environment variables:
@@ -40,8 +40,7 @@ Polls-Node is an application for creating and voting on polls in real-time, usin
    Create a `.env` file in the project root with the following variables:
 
    ```env
-   DATABASE_URL=postgresql://<username>:<password>@localhost:5432/polls
-   REDIS_URL=redis://localhost:6379
+   DATABASE_URL="postgresql://<user>:<password>@localhost:5432/polls?schema=public"
    ```
 
    **Note**: Replace `<username>` and `<password>` with your PostgreSQL credentials.
@@ -50,6 +49,12 @@ Polls-Node is an application for creating and voting on polls in real-time, usin
    ```bash
    docker-compose up -d
    ```
+
+5. Running migrations
+   ```bash
+   npx prisma migrate dev
+   ```
+   This will run all migrations creating the tables and other configs inside the database.
 
 ## Project Structure
 
@@ -88,12 +93,12 @@ polls-node/
 
 ### 2. Get Poll
 
-- **Endpoint**: `GET /poll/:id`
+- **Endpoint**: `GET /polls/:pollId`
 - **Description**: Retrieves the details of a specific poll.
 
 ### 3. Vote on Poll
 
-- **Endpoint**: `POST /poll/:id/vote`
+- **Endpoint**: `POST /polls/:pollId/vote`
 - **Description**: Records the user's vote on a poll and updates the results in real-time via WebSocket.
 
 #### Example Usage
@@ -105,7 +110,7 @@ polls-node/
 ```
 
 ### 4. WebSockets
-
+- **Endpoint**: `WS /polls/:pollId/results`
 - **Functionality**: Real-time update of poll results.
 - **Implementation**: Utilizes WebSocket to send updated results to clients in real-time.
 
@@ -122,7 +127,7 @@ We use Prisma as the ORM for interacting with PostgreSQL. The database configura
 After setting up the environment, run the following command to start the server:
 
 ```bash
-npm start
+pnpm start
 ```
 
 The server will be running on port `3333`.
